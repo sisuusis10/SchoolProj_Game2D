@@ -11,7 +11,7 @@ public class Y_SortScript : MonoBehaviour {
     private Transform Parent;
 
     //Z positions
-    private float Z_Position, Current_Z, Z_Offset = 0.1f;
+    private float Z_Position, Current_Z, Z_Offset = 0.2f;
 
     private void Awake() {
         //Get parent
@@ -31,8 +31,8 @@ public class Y_SortScript : MonoBehaviour {
             }
         } else { 
             //Sort Infornt
-            if (Current_Z != Z_Position - Z_Offset) {
-                Current_Z = Z_Position - Z_Offset;
+            if (Current_Z != -5f) {
+                Current_Z = -5f;
                 UpdateSort();
             }
         }
@@ -45,12 +45,16 @@ public class Y_SortScript : MonoBehaviour {
 
     //Collider
     private void OnTriggerEnter2D(Collider2D collision) {
-        Z_Position = collision.transform.position.z;
-        Active = true;
+        if(collision.gameObject.layer != 0) {
+            Z_Position = collision.transform.position.z;
+            Active = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
-        Active = false;
+        if (collision.gameObject.layer != 0) {
+            Active = false;
+        }
     }
 
 }
