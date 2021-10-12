@@ -8,6 +8,7 @@ public class TextHandler : MonoBehaviour {
     //Variables
     public static TextHandler handler;
     public bool IsVisible = false, DoneBuildingText = false;
+    private bool IsSkippable = false, Skip = false, Action_Hide = false;
 
     //Text
     private string Text_Input;
@@ -23,9 +24,19 @@ public class TextHandler : MonoBehaviour {
     }
 
     private void Update() {
+        //Hide Text box
         Vector2 _input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if(_input != Vector2.zero && IsVisible) {
             SetText("");
+        }
+        //Skip text / player input
+        if(Input.GetKeyDown(KeyCode.E)) {
+            if(IsSkippable) { //Skip
+                Skip = true;
+            } else if (!IsSkippable && DoneBuildingText && IsVisible) { //Next Action
+                SetText(""); //Hide TextBox
+                Action_Hide = true;
+            }
         }
     }
 
@@ -53,6 +64,9 @@ public class TextHandler : MonoBehaviour {
                 Box_Inner.color = in_color;
                 //Hide indicator
                 Indicator.SetActive(false);
+                //Clear Input text
+                Text_Input = "";
+                Action_Hide = false;
                 return;
         }
     }
@@ -62,10 +76,12 @@ public class TextHandler : MonoBehaviour {
             UI_Text.text = text;
             StopAllCoroutines();
             IsVisible = false;
-        } else { //if Input isnt empty, TextBox start coroutin and make visible
+        } else if(text != Text_Input && !Action_Hide) { //if Input isnt empty, TextBox start coroutin and make visible
+            StopAllCoroutines(); //Make sure no coroutines are active
             Text_Input = text;
             StartCoroutine(TypeWriter());
             IsVisible = true;
+            IsSkippable = false;
         }
         //Update Visibility
         UpdateVisibility();
@@ -104,10 +120,20 @@ public class TextHandler : MonoBehaviour {
             yield return new WaitForSeconds(delay);
 
             //Build and Display text
-            final_text += _c;
-            UI_Text.text = final_text;
+            if(!Skip) { //Has not been skipped
+                final_text += _c;
+                UI_Text.text = final_text;
+            } else { //Has been skipped
+                final_text = Text_Input;
+                UI_Text.text = final_text;
+                Skip = false;
+                break;
+            }
+            IsSkippable = true;
         }
+        print("done");
         //Is Done
+        IsSkippable = false;
         DoneBuildingText = true;
 
         //Make Indicator Appear
