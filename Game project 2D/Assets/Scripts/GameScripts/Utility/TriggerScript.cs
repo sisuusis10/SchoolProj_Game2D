@@ -6,8 +6,8 @@ public class TriggerScript : MonoBehaviour {
 
     public void SetActive() {
         OnActive();
-        print("boop");
     }
+
     protected virtual void OnActive() {
 
     }

@@ -15,24 +15,31 @@ public class PlayerController : MonoBehaviour {
     private Vector3 Velocity;
     private float Speed, Walk_Speed = 140f, Run_Speed = 200f, Speed_Lerp = 0.1f;
 
-    [SerializeField]
-    private Vector2 PlayerDirection;
-
-    //Raycast Detection
-    private List<RaycastHit2D> hit_Results = new List<RaycastHit2D>();
-    
     public enum MovementStates { Idle, Walking, Running };
     public MovementStates MovState;
 
+    //Direction
+    [SerializeField]
+    private Vector2 PlayerDirection;
+
+    //Detection System
+    public DetectionBoxScript DetectionBox;
+
+
     // Start is called before the first frame update
-    void Start() {
+    private void Start() {
         _Rigidbody = this.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void FixedUpdate() {
+    private void FixedUpdate() {
         if(!IsLocked) {
             MovementCode();
+            ObjectDetection();
+        }
+    }
+    private void Update() {
+        if (!IsLocked) {
             ObjectDetection();
         }
     }
@@ -76,16 +83,15 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    //
+    //Object detection
     public void ObjectDetection() {
-        //Physics2D.Raycast(this.transform.position, PlayerDirection, out hit, 10f);
-        TriggerScript trigger = null; //= hit.collider.GetComponent<TriggerScript>();
-        print("sad " + trigger);
+        //Set position to player direction
+        Vector3 BoxPosition = this.transform.position + new Vector3(PlayerDirection.x, PlayerDirection.y, 0f);
+        DetectionBox.transform.position = BoxPosition;
 
-        //Does Object have trigger script?
-        if (trigger && Input.GetKey(KeyCode.E)) {
-            trigger.SetActive();
-            print("asdasdasd");
+        //Action !!!!!replace input with own controls system!!!!!
+        if (Input.GetKeyDown(KeyCode.E)) {
+            DetectionBox.ActivateTrigger();
         }
     }
 
