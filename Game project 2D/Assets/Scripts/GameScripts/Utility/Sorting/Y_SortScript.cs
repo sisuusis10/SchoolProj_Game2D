@@ -33,6 +33,7 @@ public class Y_SortScript : MonoBehaviour {
             //Sort Infornt
             if (Current_Z != -5f) {
                 Current_Z = -5f;
+
                 UpdateSort();
             }
         }
