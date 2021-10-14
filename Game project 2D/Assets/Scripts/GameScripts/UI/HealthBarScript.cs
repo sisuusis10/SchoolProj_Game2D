@@ -18,10 +18,12 @@ public class HealthBarScript : MonoBehaviour {
     public void initialize(string _name, int _hp, int _hpMax) {
         //Set Name
         Name = _name;
-        Char_Name.text = name;
+        Char_Name.text = _name;
+
         //HP
         HP_Current = _hp;
         HP_Max = _hpMax;
+        
         //Set text
         HP_Text.text = _hp + " / " + _hpMax;
     }

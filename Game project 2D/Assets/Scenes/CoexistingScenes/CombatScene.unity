@@ -233,8 +233,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerHealthBar: {fileID: 1922104099}
-  HealthBar_Prefab: {fileID: 8235576450586237817}
-  Character_Prefab: {fileID: 0}
+  UI_Canvas: {fileID: 2068438207}
+  HealthBar_Prefab: {fileID: 8235576449807097959, guid: 2b5886d90da98e44087f50d4e270ac8a, type: 3}
+  Character_Prefab: {fileID: 8585808884003001273, guid: 7733a975e4e1f2c499c341749f058e47, type: 3}
+  CharacterProfiles:
+  - {fileID: 11400000, guid: 57ec623a23008a443a1d37037a2d1e88, type: 2}
+  - {fileID: 0}
 --- !u!224 &1922104096 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8235576449807097944, guid: 2b5886d90da98e44087f50d4e270ac8a, type: 3}
@@ -245,7 +249,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8235576449807097947, guid: 2b5886d90da98e44087f50d4e270ac8a, type: 3}
   m_PrefabInstance: {fileID: 8235576450586237816}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8235576450586237817}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be643f50fb907c946ab8a5d966245d23, type: 3}
@@ -531,8 +535,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b5886d90da98e44087f50d4e270ac8a, type: 3}
---- !u!1 &8235576450586237817 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8235576449807097959, guid: 2b5886d90da98e44087f50d4e270ac8a, type: 3}
-  m_PrefabInstance: {fileID: 8235576450586237816}
-  m_PrefabAsset: {fileID: 0}
