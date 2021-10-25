@@ -13,7 +13,8 @@ public class DetectionBoxScript : MonoBehaviour {
             //Add Values
             CurrentObject_Name = collision.gameObject.name;
             TriggerObject = collision.gameObject.GetComponent<TriggerScript>();
-            
+            //Indicate
+            IndicateInteractable.set.IsVisible = true;
         }
     }
 
@@ -23,6 +24,8 @@ public class DetectionBoxScript : MonoBehaviour {
             //Reset Values
             TriggerObject = null;
             CurrentObject_Name = "";
+            //Indicate
+            IndicateInteractable.set.IsVisible = false;
         }
     }
 

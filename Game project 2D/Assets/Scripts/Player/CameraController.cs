@@ -5,18 +5,34 @@ using UnityEngine;
 public class CameraController : MonoBehaviour {
 
     //Variables
+    public static CameraController cam;
+
     public Transform PlayerTransform;
 
     private Vector3 LerpPos;
     private float Lerp = 0.1f;
 
-    private void Start() {
-        
+    //SceneView
+    public enum SceneView { Default, Combat }
+    public SceneView CurrentSceneView = SceneView.Default;
+
+    public Vector3 CombatScenePos;
+
+    private void Awake() {
+        cam = this;
     }
+
     private void FixedUpdate() {
-        LerpPos = Vector3.Lerp(LerpPos, PlayerTransform.position, Lerp);
-        LerpPos.z = -10f;
-        this.transform.position = LerpPos;
+        switch(CurrentSceneView) {
+            case SceneView.Default:
+                LerpPos = Vector3.Lerp(LerpPos, PlayerTransform.position, Lerp);
+                LerpPos.z = -10f;
+                this.transform.position = LerpPos;
+                break;
+            case SceneView.Combat:
+                this.transform.position = CombatScenePos;
+                break;
+        }
     }
 
 }

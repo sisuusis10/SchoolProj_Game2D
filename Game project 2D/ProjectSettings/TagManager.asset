@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Entity
+  - CombatManager
+  - MainCanvas
   layers:
   - Default
   - TransparentFX
