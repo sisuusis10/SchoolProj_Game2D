@@ -9,7 +9,7 @@ public class CombatCharacter : MonoBehaviour {
     public int HP, HP_Max;
 
     public bool IsPlayer = false;
-
+    private bool In = false;
     //Combat System
     public int CombatID;
 
@@ -19,9 +19,10 @@ public class CombatCharacter : MonoBehaviour {
     //Profile
     public CharacterProfile_Scriptable Profile;
 
-    private void Start() {
-        if(IsPlayer) {
-            HealthBar.initialize(Character_Name, HP, HP_Max);
+    private void Update() {
+        if (IsPlayer && !In) {
+            HealthBar.initialize(Character_Name, HP, HP);
+            In = false;
         }
     }
 
@@ -54,11 +55,11 @@ public class CombatCharacter : MonoBehaviour {
 
     public void DealDamage(int Amount) {
         HP -= Amount;
-        HealthBar.UpdateDisplay(HP);
-        if(HP <= 0) {
+        if (HP <= 0) {
             HP = 0;
             Kill();
         }
+        HealthBar.UpdateDisplay(HP);
     }
 
     public void Kill() {

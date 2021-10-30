@@ -118,14 +118,15 @@ public class CombatManager : MonoBehaviour {
     //Active Code
     public void Combat() {
         if(IsPlayerTurn) {
-            if(Input.GetKey(KeyCode.E)) {
-                IsPlayerTurn = false;
+            if(Input.GetKeyDown(KeyCode.E)) {
+                //IsPlayerTurn = false;
+                PlayerCharacter.DealDamage(10);
             }
             Menu_BG.SetActive(true);
         } else {
             Menu_BG.SetActive(false);
             IsPlayerTurn = true;
-            PlayerCharacter.DealDamage(15);
+            PlayerCharacter.DealDamage(1);
         }
         //!! DEBUG !!
         if (Input.GetKey(KeyCode.Escape)) {
