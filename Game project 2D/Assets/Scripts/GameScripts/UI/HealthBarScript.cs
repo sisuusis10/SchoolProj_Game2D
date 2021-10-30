@@ -9,7 +9,6 @@ public class HealthBarScript : MonoBehaviour {
     //Variables
     private string Name;
     [SerializeField]
-    private int HP_Current = 100, HP_Max = 100;
     private float Scale_Current = 1f, Scale_Target = 1f;
 
     //Components
@@ -21,28 +20,20 @@ public class HealthBarScript : MonoBehaviour {
         Name = _name;
         Char_Name.text = _name;
 
-        //HP
-        HP_Current = _hp;
-        HP_Max = _hpMax;
-        
-        //Set text
-        HP_Text.text = _hp + " / " + _hpMax;
+        //Update display info
+        UpdateDisplay(_hp, _hpMax);
     }
 
-    public void UpdateDisplay(int _hp) {
-        HP_Current = _hp;
-        HP_Text.text = HP_Current + " / " + HP_Max; //Update text
+    public void UpdateDisplay(float _hp, float hp_max) {
+        HP_Text.text = _hp + " / " + hp_max; //Update text
+        Scale_Target = _hp / hp_max;
     }
 
-    private void FixedUpdate() {
-        Scale_Target = HP_Current / HP_Max;
-
+    private void Update() {
+        print(transform.name+" : "+Scale_Target);
         if (Scale_Current != Scale_Target) {
             Scale_Current = Mathf.Lerp(Scale_Current, Scale_Target, 0.01f);
             Image_HPBar.transform.localScale = new Vector2(Scale_Current, 1f);
-            print(Scale_Target);
-            print(Scale_Current);
-
         }
     }
 }

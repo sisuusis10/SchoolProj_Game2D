@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
     //Movement
     [SerializeField]
     private Vector3 Velocity;
-    private float Speed, Walk_Speed = 140f, Run_Speed = 200f, Speed_Lerp = 0.1f;
+    private float Speed, Walk_Speed = 140f, Run_Speed = 200f, Speed_Lerp = 0.15f;
 
     public enum MovementStates { Idle, Walking, Running };
     public MovementStates MovState;
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour {
         if (_input.magnitude == 0f) {
             MovState = MovementStates.Idle;
         } else {
-            MovState = (Input.GetKey(KeyCode.LeftShift) ? MovementStates.Running : MovementStates.Walking);
+            MovState = (GameManagerScript.controls.InputState(ControlsManager.InputTypes.Sprint, true) ? MovementStates.Running : MovementStates.Walking);
         }
     }
 
@@ -89,8 +89,7 @@ public class PlayerController : MonoBehaviour {
         Vector3 BoxPosition = this.transform.position + new Vector3(PlayerDirection.x, PlayerDirection.y, 0f);
         DetectionBox.transform.position = BoxPosition;
 
-        //Action !!!!!replace input with own controls system!!!!!
-        if (Input.GetKeyDown(KeyCode.E)) {
+        if (GameManagerScript.controls.InputState(ControlsManager.InputTypes.Interact, false)) {
             DetectionBox.ActivateTrigger();
         }
     }

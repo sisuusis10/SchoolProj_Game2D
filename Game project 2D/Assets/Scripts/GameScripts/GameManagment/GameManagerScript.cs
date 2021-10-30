@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour {
-    
+
     //Variables
     public static GameManagerScript game;
+    public static ControlsManager controls;
+
 
     //Components
     public CameraController Cam;
@@ -23,6 +25,7 @@ public class GameManagerScript : MonoBehaviour {
 
     private void Awake() {
         game = this;
+        controls = this.GetComponent<ControlsManager>();
 
         //Set combat position
         Combat_Pos = new Vector3(0f, 0f, 25f);

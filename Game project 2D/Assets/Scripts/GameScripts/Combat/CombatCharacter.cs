@@ -19,19 +19,15 @@ public class CombatCharacter : MonoBehaviour {
     //Profile
     public CharacterProfile_Scriptable Profile;
 
-    private void Update() {
-        if (IsPlayer && !In) {
-            HealthBar.initialize(Character_Name, HP, HP);
-            In = false;
-        }
-    }
-
     //Initialize
-    public void Initialize(CombatManager.Gen_Styles _style) {
+    public void Initialize(CombatManager.Gen_Styles _style, HealthBarScript _healthScript) {
         //Set variables
         Character_Name = Profile.CharacterName;
         HP = Profile.Health;
         HP_Max = Profile.Health;
+
+        HealthBar = _healthScript;
+
         //Position
         Vector3 _pos = Vector3.zero;
         Vector2 _size = this.GetComponent<SpriteRenderer>().size;
@@ -59,7 +55,7 @@ public class CombatCharacter : MonoBehaviour {
             HP = 0;
             Kill();
         }
-        HealthBar.UpdateDisplay(HP);
+        HealthBar.UpdateDisplay(HP, HP_Max);
     }
 
     public void Kill() {

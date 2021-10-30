@@ -11,5 +11,6 @@ public class CombatTrigger : TriggerScript {
     protected override void OnActive() {
         base.OnActive();
         CombatManager.combat.Men_Initiate(Generate_Style, Profiles);
+        print("active");
     }
 }

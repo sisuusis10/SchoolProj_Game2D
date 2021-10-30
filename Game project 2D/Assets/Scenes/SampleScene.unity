@@ -9956,6 +9956,7 @@ GameObject:
   m_Component:
   - component: {fileID: 857690459}
   - component: {fileID: 857690460}
+  - component: {fileID: 857690461}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -9993,6 +9994,21 @@ MonoBehaviour:
   CombatManagerPrefab: {fileID: 8706548832253442074, guid: 04d8001b2c20a514394bc5e39e6bc0dc, type: 3}
   TransitionPrefab: {fileID: 1153064570718958305, guid: 6a77ee01e3eba0340865e305f8a86a11, type: 3}
   CanvasPrefab: {fileID: 90310137132509693, guid: 604b23d3979e5e14b88d63590e64ade3, type: 3}
+--- !u!114 &857690461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857690458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d78f86810a28a84c9263b27851e65ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InteractKey: 101
+  SprintKey: 304
+  PauseKey: 27
 --- !u!4 &874313704 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8855331009367905643, guid: d30478272a8fb864ba2ad1c3d057f3f0, type: 3}

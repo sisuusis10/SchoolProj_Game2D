@@ -67,10 +67,7 @@ public class CombatManager : MonoBehaviour {
                 }
             }
         }
-        //Active Combat state code
-        if(CurrentCombatState == CombatStates.Active) {
-            Combat();
-        }
+
         //Exit Combat state code
         if (CurrentCombatState == CombatStates.Exit) {
             if (TransitionHandler.transitions.CurrentTransition == TransitionHandler.Transitions.None) {
@@ -115,21 +112,27 @@ public class CombatManager : MonoBehaviour {
         CurrentCombatState = _state; //Set state
     }
 
+    private void Update() {
+        //Active Combat state code
+        if (CurrentCombatState == CombatStates.Active) {
+            Combat();
+        }
+    }
+
     //Active Code
     public void Combat() {
-        if(IsPlayerTurn) {
-            if(Input.GetKeyDown(KeyCode.E)) {
-                //IsPlayerTurn = false;
-                PlayerCharacter.DealDamage(10);
-            }
+        if(GameManagerScript.controls.InputState(ControlsManager.InputTypes.Interact, false) && IsPlayerTurn) {
+            //IsPlayerTurn = false;
+            PlayerCharacter.DealDamage(10);
+            IsPlayerTurn = false;
             Menu_BG.SetActive(true);
         } else {
             Menu_BG.SetActive(false);
-            IsPlayerTurn = true;
-            PlayerCharacter.DealDamage(1);
+          //  IsPlayerTurn = true;
+         //   PlayerCharacter.DealDamage(1);
         }
         //!! DEBUG !!
-        if (Input.GetKey(KeyCode.Escape)) {
+        if (GameManagerScript.controls.InputState(ControlsManager.InputTypes.Pause, false)) {
             SetState(CombatStates.Exit);
         }
 
@@ -177,9 +180,8 @@ public class CombatManager : MonoBehaviour {
 
             //Initialize Character
             temp_charscript.CombatID = i;
-            temp_charscript.HealthBar = temp_hpbar.GetComponent<HealthBarScript>();
             temp_charscript.Profile = profiles[i];
-            temp_charscript.Initialize(style);
+            temp_charscript.Initialize(style, temp_hpbar.GetComponent<HealthBarScript>());
 
             //Add to list
             Characters_Dictionary.Add(i, temp_charscript);
