@@ -30,7 +30,6 @@ public class HealthBarScript : MonoBehaviour {
     }
 
     private void Update() {
-        print(transform.name+" : "+Scale_Target);
         if (Scale_Current != Scale_Target) {
             Scale_Current = Mathf.Lerp(Scale_Current, Scale_Target, 0.01f);
             Image_HPBar.transform.localScale = new Vector2(Scale_Current, 1f);

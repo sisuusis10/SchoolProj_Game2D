@@ -119,23 +119,33 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
+    //Variables
+    private float Turn_timer, Turn_TimerMax = 2f;
     //Active Code
     public void Combat() {
-        if(GameManagerScript.controls.InputState(ControlsManager.InputTypes.Interact, false) && IsPlayerTurn) {
-            //IsPlayerTurn = false;
-            PlayerCharacter.DealDamage(10);
-            IsPlayerTurn = false;
-            Menu_BG.SetActive(true);
+        //Turn Timer
+        if (Turn_timer < Turn_TimerMax) {
+            Turn_timer += Time.deltaTime;
         } else {
-            Menu_BG.SetActive(false);
-          //  IsPlayerTurn = true;
-         //   PlayerCharacter.DealDamage(1);
+            if (GameManagerScript.controls.InputState(ControlsManager.InputTypes.Interact, false) && IsPlayerTurn) {
+                SetTurn(false);
+            } else {
+                SetTurn(true);
+                    PlayerCharacter.DealDamage(10);
+            }
         }
+
         //!! DEBUG !!
         if (GameManagerScript.controls.InputState(ControlsManager.InputTypes.Pause, false)) {
             SetState(CombatStates.Exit);
         }
 
+    }
+
+    private void SetTurn(bool player_turn) {
+        IsPlayerTurn = player_turn;
+        Menu_BG.SetActive(player_turn);
+        Turn_timer = 0f;
     }
 
     //Set Visibility

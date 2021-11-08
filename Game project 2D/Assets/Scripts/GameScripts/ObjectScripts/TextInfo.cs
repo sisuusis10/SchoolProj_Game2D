@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class TextInfo : TriggerScript {
 
-    public string DisplayText = "";
+    public string[] DisplayText;
 
     protected override void OnActive() {
         base.OnActive();
 
-        TextHandler.handler.SetText(DisplayText);
+        TextHandler.handler.SetText(DisplayText, TextHandler.TextModes.Default);
     }
 
 }
