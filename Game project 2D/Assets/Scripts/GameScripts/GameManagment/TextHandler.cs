@@ -8,7 +8,7 @@ public class TextHandler : MonoBehaviour {
     //Variables
     public static TextHandler handler;
     public bool IsVisible = false, DoneBuildingText = false;
-    private bool IsSkippable = false, Skip = false, Action_Hide = false;
+    private bool Initiate_Interaction = false, Interaction = false, Action_Hide = false;
 
     //mode
     public enum TextModes { InActive, Default, Character, Selection }
@@ -22,7 +22,7 @@ public class TextHandler : MonoBehaviour {
 
     //Components
     public Image Box_Outter, Box_Inner;
-
+    private PlayerController _player;
     //Quick array
     public static string[] QuickArray(string _string) {
         string[] StringArray = new string[1] { _string };
@@ -30,6 +30,7 @@ public class TextHandler : MonoBehaviour {
     }
     private void Awake() {
         handler = this;
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         SetText(QuickArray("")); //Hide on start
     }
 
@@ -38,8 +39,8 @@ public class TextHandler : MonoBehaviour {
     }
 
     //Modes
-    private int PlayerSelected_Index = 0;
-    private bool Select = false;
+    private int PlayerSelected_Index = 0, PlayerSelect_MemIndex;
+    private bool MovSelect = false, initiate_selectmode = true;
     private void TextModeManagement() {
         switch(TextMode) {
             //Default Text Functionality
@@ -51,9 +52,9 @@ public class TextHandler : MonoBehaviour {
                 }
                 //Skip text / player input
                 if (Input.GetKeyDown(KeyCode.E)) {
-                    if (IsSkippable) { //Skip
-                        Skip = true;
-                    } else if (!IsSkippable && DoneBuildingText && IsVisible) { //Next Action
+                    if (Initiate_Interaction) { //Skip
+                        Interaction = true;
+                    } else if (!Initiate_Interaction && DoneBuildingText && IsVisible) { //Next Action
                         SetText(QuickArray("")); //Hide TextBox
                         Action_Hide = true;
                     }
@@ -65,28 +66,55 @@ public class TextHandler : MonoBehaviour {
                 break;
                 //Player Text Option Selection
             case TextModes.Selection:
+                //Generate
+                if (PlayerSelect_MemIndex != PlayerSelected_Index || initiate_selectmode) {
+                    string DisplayText = "";
+                    for (int i = 0; i < Text_Input.Length; i++) {
+                        if (i != PlayerSelected_Index) {
+                            DisplayText += Text_Input[i] + " ";
+                        } else {
+                            DisplayText += "<s>" + Text_Input[i] + "</s>" + " ";
+                        }
+                    }
+                    //Initiation
+                    if (!Initiate_Interaction) {
+                        Initiate_Interaction = true;
+                        _player.IsLocked = true;
+                    }
+                    initiate_selectmode = false;
+                    //Apply
+                    UI_Text.text = DisplayText;
+                }
+
+                //Set mem index
+                PlayerSelect_MemIndex = PlayerSelected_Index;
                 //Player Input
                 if(Input.GetAxisRaw("Horizontal") > 0f) {
-                    if(!Select)
-                    PlayerSelected_Index++;
-                    Select = true;
+                    if(!MovSelect)
+                        PlayerSelected_Index++;
+                    MovSelect = true;
                 } else if (Input.GetAxisRaw("Horizontal") < 0f) {
-                    if (!Select)
-                    PlayerSelected_Index--;
-                    Select = true;
+                    if (!MovSelect)
+                        PlayerSelected_Index--;
+                        MovSelect = true;
                 } else {
-                    Select = false;
+                    MovSelect = false;
                 }
-                //Generate
-                string DisplayText = "";
-                for (int i = 0; i < Text_Input.Length; i++) {
-                    if(i != PlayerSelected_Index) {
-                        DisplayText += Text_Input[i] + " ";
-                    } else {
-                        DisplayText += "<s>" + Text_Input[i] + "</s>" + " ";
+                //Player Interaction
+                if(Input.GetKeyDown(KeyCode.E)) {
+                    if (Initiate_Interaction) { //Selected
+                        SetText(QuickArray(""), TextModes.Default);
+                        Interaction = true;
+                        initiate_selectmode = true;
+                        _player.IsLocked = false;
                     }
                 }
-                UI_Text.text = DisplayText;
+                //Clamp
+                if(PlayerSelected_Index > Text_Input.Length-1) {
+                    PlayerSelected_Index = 0;
+                } else if(PlayerSelected_Index < 0) {
+                    PlayerSelected_Index = Text_Input.Length-1;
+                }
                 break;
         }
     }
@@ -131,12 +159,13 @@ public class TextHandler : MonoBehaviour {
             UI_Text.text = text[0];
             StopAllCoroutines();
             IsVisible = false;
+            Initiate_Interaction = false;
         } else if(text != Text_Input && !Action_Hide) { //if Input isnt empty, TextBox start coroutin and make visible
             StopAllCoroutines(); //Make sure no coroutines are active
             Text_Input = text;
             StartCoroutine(TypeWriter());
             IsVisible = true;
-            IsSkippable = false;
+            Initiate_Interaction = false;
         }
         //Update Visibility
         UpdateVisibility();
@@ -175,20 +204,20 @@ public class TextHandler : MonoBehaviour {
             yield return new WaitForSeconds(delay);
 
             //Build and Display text
-            if(!Skip) { //Has not been skipped
+            if(!Interaction) { //Has not been skipped
                 final_text += _c;
                 UI_Text.text = final_text;
             } else { //Has been skipped
                 final_text = Text_Input[TextIndex];
                 UI_Text.text = final_text;
-                Skip = false;
+                Interaction = false;
                 break;
             }
-            IsSkippable = true;
+            Initiate_Interaction = true;
         }
         print("done");
         //Is Done
-        IsSkippable = false;
+        Initiate_Interaction = false;
         DoneBuildingText = true;
 
         //Make Indicator Appear
