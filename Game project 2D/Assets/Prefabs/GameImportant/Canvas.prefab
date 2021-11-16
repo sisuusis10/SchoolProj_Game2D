@@ -632,8 +632,7 @@ MonoBehaviour:
   Indicator: {fileID: 90310135911131132}
   Box_Outter: {fileID: 90310137365815464}
   Box_Inner: {fileID: 90310136425094906}
-  _audiosource: {fileID: 6838712848395136376}
-  DefaultSound: {fileID: 8300000, guid: 5afb1c315b85b9f4388f29749b663def, type: 3}
+  defaultsound: {fileID: 8300000, guid: b959a1976747fa644ab8ccca640b2b46, type: 3}
 --- !u!82 &6838712848395136376
 AudioSource:
   m_ObjectHideFlags: 0

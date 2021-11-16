@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour {
         if(!IsLocked) {
             MovementCode();
             ObjectDetection();
+        } else {
+            _Rigidbody.velocity = Vector2.zero;
         }
     }
     private void Update() {
