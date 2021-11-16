@@ -23,14 +23,19 @@ public class IndicateInteractable : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        switch(IsVisible) {
-            case true:
-                targetalpha = 1f;        
-                break;
-            case false:
-                targetalpha = 0f;
-                break;
+        if(TextHandler.handler.IsVisible) {
+            targetalpha = 0f;
+        } else { //Default functionality
+            switch (IsVisible) {
+                case true:
+                    targetalpha = 1f;
+                    break;
+                case false:
+                    targetalpha = 0f;
+                    break;
+            }
         }
+        
         //Lerp
         Alpha = Mathf.Lerp(Alpha, targetalpha, 0.1f);
         textColor.a = Alpha;
