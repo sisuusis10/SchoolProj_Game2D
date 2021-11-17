@@ -8,6 +8,7 @@ public class GameManagerScript : MonoBehaviour {
     //Variables
     public static GameManagerScript game;
     public static ControlsManager controls;
+    public static PlayerController player;
 
 
     //Components
@@ -40,7 +41,8 @@ public class GameManagerScript : MonoBehaviour {
         
         //Get player
         if(GameObject.FindObjectOfType<PlayerController>()) {
-            PlayerObj = GameObject.FindObjectOfType<PlayerController>().gameObject;
+            player = GameObject.FindObjectOfType<PlayerController>();
+            PlayerObj = player.gameObject;
         }
         //Check for Main Canvas
         if (!GameObject.FindGameObjectWithTag("MainCanvas")) {

@@ -82,7 +82,7 @@ public class TransitionHandler : MonoBehaviour {
     public bool IsTransitioning() {
         if(Current_Alpha != TargetAlpha || Auto) {
             //Lerp
-            Current_Alpha = Mathf.MoveTowards(Current_Alpha, TargetAlpha, LerpSpeed);
+            Current_Alpha = Mathf.MoveTowards(Current_Alpha, TargetAlpha, LerpSpeed + Time.fixedDeltaTime);
             //Check if auto
             if(Auto && Current_Alpha == TargetAlpha) {
                 TargetAlpha = 0f;

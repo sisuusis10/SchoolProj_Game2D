@@ -157,6 +157,9 @@ public class CombatManager : MonoBehaviour {
 
     //Exit Combat
     public void ExitCombat() {
+        //Update player data
+        GameManagerScript.player.Health = PlayerCharacter.HP;
+
         //Clear Combat Scene
         Characters_Dictionary.Clear();
         foreach (GameObject g in ObjectList) {
@@ -166,6 +169,10 @@ public class CombatManager : MonoBehaviour {
 
     //Generate Scene
     public void GenerateCombatScene(Gen_Styles style, CharacterProfile_Scriptable[] profiles) {
+        //Retrive Player data
+        PlayerCharacter.HP_Max = GameManagerScript.player.Health_Max;
+        PlayerCharacter.HP = GameManagerScript.player.Health;
+
         //Counter
         int enemycount = profiles.Length;
         //Style
@@ -182,11 +189,12 @@ public class CombatManager : MonoBehaviour {
             //Generate HealthBar
             GameObject temp_hpbar = Instantiate(HealthBar_Prefab);
             temp_hpbar.transform.SetParent(UI_Canvas.transform);
+            temp_hpbar.GetComponent<RectTransform>().localScale = PlayerHealthBar.GetComponent<RectTransform>().localScale; //Get scale from player'S healthbar
 
-            float X = UI_Canvas.GetComponent<RectTransform>().position.x + UI_Canvas.GetComponent<RectTransform>().rect.xMax;
-            float Y = UI_Canvas.GetComponent<RectTransform>().position.y + UI_Canvas.GetComponent<RectTransform>().rect.yMax;
+            float X = UI_Canvas.GetComponent<RectTransform>().position.x + UI_Canvas.GetComponent<RectTransform>().rect.xMax; //Get scale from player's healthbar
+            float Y = PlayerHealthBar.transform.position.y; //Get Y position from player's healthbar
             float Z = UI_Canvas.GetComponent<RectTransform>().position.z;
-            temp_hpbar.transform.position = new Vector3(X - ((temp_hpbar.GetComponent<Image>().rectTransform.sizeDelta.x * 1.5f) * (1+i)), Y - temp_hpbar.GetComponent<Image>().rectTransform.sizeDelta.y * 2f, Z);
+            temp_hpbar.transform.position = new Vector3(X - (temp_hpbar.GetComponent<Image>().rectTransform.sizeDelta.x * 1.5f+i), Y, Z);
 
             //Initialize Character
             temp_charscript.CombatID = i;

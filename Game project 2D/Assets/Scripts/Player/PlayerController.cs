@@ -13,11 +13,16 @@ public class PlayerController : MonoBehaviour {
     //Movement
     [SerializeField]
     private Vector3 Velocity;
-    private float Speed, Walk_Speed = 140f, Run_Speed = 200f, Speed_Lerp = 0.15f;
+    private float Speed, Walk_Speed = 140f, Run_Speed = 200f, Speed_Lerp = 0.5f;
 
+    //States
     public enum MovementStates { Idle, Walking, Running };
     public MovementStates MovState;
 
+    //Player Combat Data
+    public int Health = 100;
+    public int Health_Max = 100;
+    
     //Direction
     [SerializeField]
     private Vector2 PlayerDirection;
@@ -28,6 +33,10 @@ public class PlayerController : MonoBehaviour {
 
     // Start is called before the first frame update
     private void Start() {
+        //Initialization
+
+
+        //Get Components
         _Rigidbody = this.GetComponent<Rigidbody2D>();
     }
 
