@@ -191,10 +191,11 @@ public class CombatManager : MonoBehaviour {
             temp_hpbar.transform.SetParent(UI_Canvas.transform);
             temp_hpbar.GetComponent<RectTransform>().localScale = PlayerHealthBar.GetComponent<RectTransform>().localScale; //Get scale from player'S healthbar
 
-            float X = UI_Canvas.GetComponent<RectTransform>().position.x + UI_Canvas.GetComponent<RectTransform>().rect.xMax; //Get scale from player's healthbar
+            float X = UI_Canvas.GetComponent<RectTransform>().position.x + UI_Canvas.GetComponent<RectTransform>().rect.xMax;
+            float X_Offset = (temp_hpbar.GetComponent<Image>().rectTransform.rect.width * 1.5f);
             float Y = PlayerHealthBar.transform.position.y; //Get Y position from player's healthbar
             float Z = UI_Canvas.GetComponent<RectTransform>().position.z;
-            temp_hpbar.transform.position = new Vector3(X - (temp_hpbar.GetComponent<Image>().rectTransform.sizeDelta.x * 1.5f+i), Y, Z);
+            temp_hpbar.transform.position = new Vector3(X - (X_Offset * 1+i), Y, Z);
 
             //Initialize Character
             temp_charscript.CombatID = i;
